@@ -6,14 +6,13 @@ import (
 	"strings"
 )
 
-
 type Config struct {
-	Port string    `json:Port`
+	Port string `json:Port`
 
-  DBHostname string `json:DBHostname`
+	DBHostname string `json:DBHostname`
 	DBPort     string `json:DBPort`
-	Username string `json:Username`
-	Password string `json:Password`
+	Username   string `json:Username`
+	Password   string `json:Password`
 }
 
 // New creates a new, global Config. Reads in configuration from config files.
