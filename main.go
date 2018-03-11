@@ -6,8 +6,8 @@ import (
 	"github.com/jlyon1/IEDFoodStorage/api"
 	"github.com/jlyon1/IEDFoodStorage/config"
 	"github.com/jlyon1/IEDFoodStorage/database"
-
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -26,7 +26,16 @@ func main() {
 	err = db.Connect(cfg)
 	if err != nil {
 		fmt.Println("Failed to connect to database")
-		panic(err.Error())
+		for err != nil {
+			<-time.After(5 * time.Second)
+			fmt.Println("Retrying")
+
+			err = db.Connect(cfg)
+			if(err != nil){
+				fmt.Println(err.Error())
+			}
+		}
+		//panic(err.Error())
 	}
 
 	fmt.Println("Successfully connected")
