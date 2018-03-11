@@ -49,7 +49,7 @@ func (data *Database) CheckLayout() bool {
 
 func (data *Database) InitDatabase() {
 
-	res, err := data.db.Exec("CREATE TABLE pantry(ID int NOT NULL AUTO_INCREMENT KEY, Name varchar(255) NOT NULL, ExpirationDate date, Position int, PadNum int, Count int);")
+	res, err := data.db.Exec("CREATE TABLE pantry(ID int NOT NULL AUTO_INCREMENT KEY, Name varchar(255) NOT NULL, ExpirationDate date, Position int, PadNum int, Count int, Created int);")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -104,7 +104,7 @@ func (data *Database) GetAll() (ret model.Foods) {
 		t := model.Food{}
 		err := rows.Scan(&t.ID, &t.Name,
 			&t.ExpirationDate, &t.Position,
-			&t.PadNum, &t.Count)
+			&t.PadNum, &t.Count, &t.Created)
 		if err != nil {
 			fmt.Println(err.Error())
 		}

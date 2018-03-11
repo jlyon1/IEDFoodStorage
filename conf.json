@@ -1,6 +1,6 @@
 {
   "Port": "8081",
-  "DBHostname":"mariadb",
+  "DBHostname":"172.17.0.2",
   "DBPort":"3306",
   "Username":"root",
   "Password":"pass"

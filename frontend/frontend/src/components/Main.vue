@@ -5,7 +5,9 @@
     </div>
     <div class="section">
       <div class="container">
-        <FoodCard v-for="item in foodItems.Foods" v-bind:foodData="item" v-on:reload="reload"></FoodCard>
+        <div class="tile is-ancestor" v-for="i in Math.ceil(foodItems.Foods.length/3)">
+          <FoodCard v-for="(item,j) in foodItems.Foods.slice((i - 1) * 3, i * 3)" v-bind:foodData="item" v-on:reload="reload"></FoodCard>
+        </div>
       </div>
     </div>
   </div>
@@ -47,10 +49,10 @@ export default {
 </script>
 
 <style scoped>
-.header{
-  background-color: rgba(14, 105, 161, 0.03);
-  padding: 20px;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 500;
-}
+  .header{
+    background-color: rgba(14, 105, 161, 0.03);
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+  }
 </style>

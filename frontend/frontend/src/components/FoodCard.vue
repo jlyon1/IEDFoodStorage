@@ -18,7 +18,7 @@
           Weight Sensor: none
         </p>
         <p class="description">
-          Other Data: none
+          Time on Shelf:
         </p>
         <div class="boxfooter">
           Quantity: <button class="button">+</button><button class="button">-</button>

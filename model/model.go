@@ -11,6 +11,7 @@ type Food struct {
 	Position       int       `json:Position`
 	PadNum         int       `json:PadNum`
 	Count          int       `json:Count`
+	Created        int       `json:Created`
 }
 
 type Foods struct {

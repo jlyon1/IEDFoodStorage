@@ -31,7 +31,7 @@ func main() {
 			fmt.Println("Retrying")
 
 			err = db.Connect(cfg)
-			if(err != nil){
+			if err != nil {
 				fmt.Println(err.Error())
 			}
 		}
