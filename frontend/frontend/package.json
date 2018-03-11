@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "bulma": "^0.6.2",
-    "vue": "^2.5.2"
+    "tippy.js": "^2.3.0",
+    "vanilla-tilt": "^1.4.1",
+    "vue": "^2.5.2",
+    "vue-tippy": "^2.0.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

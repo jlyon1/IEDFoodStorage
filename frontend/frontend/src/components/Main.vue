@@ -3,7 +3,7 @@
     <div class="header">
       <div class="">Team Maet Food Inventory</div>
     </div>
-    <div class="section">
+    <div class="section bdy">
       <div class="container">
         <div class="tile is-ancestor" v-for="i in Math.ceil(foodItems.Foods.length/3)">
           <FoodCard v-for="(item,j) in foodItems.Foods.slice((i - 1) * 3, i * 3)" v-bind:foodData="item" v-on:reload="reload"></FoodCard>
@@ -49,10 +49,16 @@ export default {
 </script>
 
 <style scoped>
+  .bdy{
+    background-color:#fefefe;
+
+  }
   .header{
     background-color: rgba(14, 105, 161, 0.03);
     padding: 20px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
   }
 </style>

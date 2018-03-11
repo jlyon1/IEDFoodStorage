@@ -21,10 +21,10 @@
           Time on Shelf:
         </p>
         <div class="boxfooter">
-          Quantity: <button class="button">+</button><button class="button">-</button>
+          Quantity: <button class="button" @click="foodData.Count++">+</button><button @click="foodData.Count--" class="button">-</button>
         </div>
         <div class="boxfooter">
-          <button @click="remove" class="button">Remove</button>
+          <button @click="remove" class="button" title="Caution: Permanent" v-tippy>Remove</button>
           <button class="button">Move</button>
           <button class="button">Add to List</button>
         </div>
@@ -36,7 +36,6 @@
 
 <script>
 
-
 export default {
   name: 'FoodCard',
   props: ['foodData'],
@@ -45,7 +44,6 @@ export default {
     }
   },
   mounted: function(){
-
   },
   methods: {
     remove: function(){
@@ -119,5 +117,14 @@ export default {
   border-radius: 4px;
   border:1px solid #E0E0EA;
   background-color: rgba(14, 105, 161, 0.03);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: background-color .15s;
+}
+.nicebox:hover{
+  font-family: "Raleway" sans-serif;
+  border-radius: 4px;
+  border:1px solid #E0E0EA;
+  background-color: rgba(14, 105, 161, 0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 </style>
