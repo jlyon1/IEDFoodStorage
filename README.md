@@ -16,4 +16,4 @@ This repository contains the source code for the web facing portion of our IED f
 
 # Setup
 
-Coming soon
+`docker-compose up`
