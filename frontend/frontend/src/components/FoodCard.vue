@@ -2,7 +2,32 @@
   <div class="tile is-parent">
     <div class="tile is-child">
       <div class="nicebox">
-        {{data}}
+        <div class="title is-5 pad">
+          {{foodData.Name}}
+          <span class="subtitle is-7 rgt pad">
+            QTY: {{foodData.Count}}
+          </span>
+        </div>
+        <p class="description-top">
+          Location: Pad {{foodData.PadNum}}
+        </p>
+        <p class="description">
+          Expires: {{foodData.ExpirationDate.substr(0,10)}}
+        </p>
+        <p class="description">
+          Weight Sensor: none
+        </p>
+        <p class="description">
+          Other Data: none
+        </p>
+        <div class="boxfooter">
+          Quantity: <button class="button">+</button><button class="button">-</button>
+        </div>
+        <div class="boxfooter">
+          <button @click="remove" class="button">Remove</button>
+          <button class="button">Move</button>
+          <button class="button">Add to List</button>
+        </div>
       </div>
 
     </div>
@@ -14,21 +39,84 @@
 
 export default {
   name: 'FoodCard',
-  props: ['data'],
+  props: ['foodData'],
   data () {
     return {
     }
   },
   mounted: function(){
 
+  },
+  methods: {
+    remove: function(){
+      this.$emit('reload')
+      fetch('http://127.0.0.1:8081/remove/' + this.foodData.ID, {
+        method: 'post'
+      }).then(function(data){
+        return data.text();
+      }).then(function(data){
+        console.log(data);
+      });
+    }
   }
 }
 </script>
 
 <style scoped>
+
+.small{
+  font-size: 20px;
+  margin: 5px;
+}
+
+.boxfooter{
+  padding: 10px;
+}
+.pad{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+
+}
+.description{
+  margin-top: 0;
+  margin-left: 0;
+  border-top: 0px;
+  border-bottom: 1px;
+  border-left: 0;
+  border-right: 0;
+  border-style: solid;
+  border-color:  #E0E0EA;
+  background-color: white;
+  width: 100%;
+  position: inherit;
+  padding: 15px;
+}
+
+.description-top{
+
+  margin-top: 0;
+  margin-left: 0;
+  border-top: 1px;
+  border-bottom: 1px;
+  border-left: 0;
+  border-right: 0;
+  border-style: solid;
+  border-color:  #E0E0EA;
+  background-color: white;
+  width: 100%;
+  position: inherit;
+  padding: 15px;
+
+}
+
+.rgt{
+  float:right;
+}
 .nicebox{
+  font-family: "Raleway" sans-serif;
   border-radius: 4px;
-  padding: 20px;
   border:1px solid #E0E0EA;
   background-color: rgba(14, 105, 161, 0.03);
 }

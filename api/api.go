@@ -2,9 +2,11 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/jlyon1/IEDFoodStorage/database"
-	"github.com/jlyon1/IEDFoodStorage/model"
 	"net/http"
+	"strconv"
 )
 
 type API struct {
@@ -12,16 +14,27 @@ type API struct {
 }
 
 func (api *API) IndexHandler(w http.ResponseWriter, r *http.Request) {
-	f := model.Foods{}
-	for i := 1; i < 100; i++ {
-		thing := api.DB.GetById(i)
-		if thing.ID != 0 {
-			f.Foods = append(f.Foods, thing)
-		} else {
-			break
-		}
-	}
+	f := api.DB.GetAll()
 	WriteJSON(w, f)
+}
+
+func (api *API) RemoveFoodHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	if err != nil {
+		http.Error(w, "Invalid format", 500)
+		return
+	}
+
+	if api.DB.Remove(id) {
+		w.Write([]byte("removed"))
+		fmt.Printf("Removed %d\n", id)
+	} else {
+		http.Error(w, "Failed", 500)
+	}
+
 }
 
 func WriteJSON(w http.ResponseWriter, data interface{}) error {

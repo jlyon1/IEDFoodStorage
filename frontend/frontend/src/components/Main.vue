@@ -5,7 +5,7 @@
     </div>
     <div class="section">
       <div class="container">
-        <FoodCard v-for="item in foodItems.Foods" v-bind:data="item"></FoodCard>
+        <FoodCard v-for="item in foodItems.Foods" v-bind:foodData="item" v-on:reload="reload"></FoodCard>
       </div>
     </div>
   </div>
@@ -22,6 +22,17 @@ export default {
   data () {
     return {
       foodItems: {}
+    }
+  },
+  methods: {
+
+    reload: function(){
+      let el = this;
+      fetch("http://127.0.0.1:8081/").then(function(data){
+        return data.json();
+      }).then(function (resp){
+        el.foodItems = resp
+      });
     }
   },
   mounted: function(){

@@ -7,12 +7,13 @@ This repository contains the source code for the web facing portion of our IED f
 - Utilize online databases such as eatbydate and allow user input to track expiration dates
 - Automatically notify users on expiration of food items
 - Provide an API to allow external sensors to expire foods in the database
-- Enable users to mark food as eaten/expired
+- Enable users to mark food as eaten/expired/removed
 
 ### Stretch Goals
 
 - Use shopping lists to manage what the user should buy/stock shelves from what they did buy
 - Generate a shopping list for expired foods
+- Add a saved food list w/expiration times
 
 # Setup
 

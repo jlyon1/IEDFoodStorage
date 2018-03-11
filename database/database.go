@@ -88,3 +88,46 @@ func (data *Database) GetById(id int) (t model.Food) {
 	}
 	return t
 }
+
+func (data *Database) GetAll() (ret model.Foods) {
+	stmt, err := data.db.Prepare("select * from pantry")
+	if err != nil {
+		log.Print(err)
+	}
+	defer stmt.Close()
+	rows, err := stmt.Query()
+	if err != nil {
+		log.Print(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		t := model.Food{}
+		err := rows.Scan(&t.ID, &t.Name,
+			&t.ExpirationDate, &t.Position,
+			&t.PadNum, &t.Count)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		ret.Foods = append(ret.Foods, t)
+	}
+	if err = rows.Err(); err != nil {
+		log.Print(err)
+	}
+	return ret
+}
+
+func (data *Database) Remove(id int) (rem bool) {
+	stmt, err := data.db.Prepare("delete from pantry where id=?")
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+	defer stmt.Close()
+	rows, err := stmt.Query(id)
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+	defer rows.Close()
+	return true
+}
