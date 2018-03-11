@@ -1,4 +1,4 @@
-# IEDFoodStorage
+# IEDFoodStorage [![Build Status](https://travis-ci.org/jlyon1/IEDFoodStorage.svg?branch=master)](https://travis-ci.org/jlyon1/IEDFoodStorage)
 
 This repository contains the source code for the web facing portion of our IED food inventory project. Includes a frontend and a backend
 
