@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jlyon1/IEDFoodStorage/config"
+	"github.com/jlyon1/IEDFoodStorage/model"
 	"log"
 )
 
@@ -14,7 +15,7 @@ type Database struct {
 
 func (data *Database) Connect(cfg *config.Config) error {
 	db, err := sql.Open("mysql",
-		cfg.Username+":"+cfg.Password+"@tcp("+cfg.DBHostname+":"+cfg.DBPort+")/food")
+		cfg.Username+":"+cfg.Password+"@tcp("+cfg.DBHostname+":"+cfg.DBPort+")/food?parseTime=true")
 	if err != nil {
 		log.Fatal(err)
 		return err
@@ -48,7 +49,7 @@ func (data *Database) CheckLayout() bool {
 
 func (data *Database) InitDatabase() {
 
-	res, err := data.db.Exec("CREATE TABLE pantry(ID int NOT NULL AUTO_INCREMENT KEY, Name varchar(255) NOT NULL, ExpirationDate date, Position int, PadNum int);")
+	res, err := data.db.Exec("CREATE TABLE pantry(ID int NOT NULL AUTO_INCREMENT KEY, Name varchar(255) NOT NULL, ExpirationDate date, Position int, PadNum int, Count int);")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -61,4 +62,29 @@ func (data *Database) InitDatabase() {
 		log.Fatal(err)
 	}
 	log.Printf("ID = %d, affected = %d\n", lastId, rowCnt)
+}
+
+func (data *Database) GetById(id int) (t model.Food) {
+	stmt, err := data.db.Prepare("select * from pantry where `ID` = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+	rows, err := stmt.Query(1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err := rows.Scan(&t.ID, &t.Name,
+			&t.ExpirationDate, &t.Position,
+			&t.PadNum, &t.Count)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return t
 }
