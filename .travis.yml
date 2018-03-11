@@ -1,0 +1,13 @@
+language: go
+
+go:
+  - 1.9.x
+  - tip
+
+before_install:
+  - go get github.com/gorilla/mux
+  - go get -v github.com/spf13/viper
+  - go get github.com/go-sql-driver/mysql
+
+notifications:
+  email: false

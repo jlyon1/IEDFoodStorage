@@ -1,0 +1,11 @@
+version: '2'
+services:
+  mariadb:
+    image: mariadb:latest
+
+  iedfoodproject:
+    build: ./
+    ports:
+      - "8081:8081"
+    links:
+      - mariadb
