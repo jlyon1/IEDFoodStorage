@@ -12,3 +12,7 @@ type Food struct {
 	PadNum         int       `json:PadNum`
 	Count          int       `json:Count`
 }
+
+type Foods struct {
+	Foods []Food `json:Foods`
+}

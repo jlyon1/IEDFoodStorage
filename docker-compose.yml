@@ -3,7 +3,7 @@ services:
   mariadb:
     image: mariadb:latest
 
-  iedfoodproject:
+  ied-new:
     build: ./
     ports:
       - "8081:8081"

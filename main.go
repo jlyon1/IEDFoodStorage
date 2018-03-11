@@ -21,7 +21,7 @@ func main() {
 	db := database.Database{}
 	fmt.Printf("Food Manager Running, serving on port: %s\n", cfg.Port)
 
-	fmt.Println("Trying to connect to database")
+	fmt.Printf("Trying to connect to database: %s:%s\n", cfg.DBHostname, cfg.DBPort)
 
 	err = db.Connect(cfg)
 	if err != nil {
@@ -42,6 +42,7 @@ func main() {
 	}
 
 	r.HandleFunc("/", api.IndexHandler).Methods("GET")
+	r.HandleFunc("/inventory", api.IndexHandler).Methods("GET")
 
 	http.ListenAndServe("0.0.0.0:"+cfg.Port, r)
 
