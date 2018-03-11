@@ -2,12 +2,11 @@
   <div class="tile is-parent">
     <div class="tile is-child">
       <div class="nicebox">
-        <div class="title is-5 pad">
-          {{foodData.Name}}
-          <span class="subtitle is-7 rgt pad">
-            QTY: {{foodData.Count}}
-          </span>
-        </div>
+        <medium-editor :text=foodData.Name class="title is-5 pad":options="editorOptions" v-on:edit="editName">
+        </medium-editor>
+        <span class="subtitle is-7 rgt pad">
+          QTY: {{foodData.Count}}
+        </span>
         <p class="description-top">
           Location: Pad {{foodData.PadNum}}
         </p>
@@ -21,12 +20,13 @@
           Time on Shelf:
         </p>
         <div class="boxfooter">
-          Quantity: <button class="button" @click="foodData.Count++">+</button><button @click="foodData.Count--" class="button">-</button>
+          Quantity: <button class="button" @click="foodData.Count++;promptUpdate=true;">+</button><button @click="foodData.Count--;promptUpdate=true;" class="button">-</button>
         </div>
         <div class="boxfooter">
           <button @click="remove" class="button" title="Caution: Permanent" v-tippy>Remove</button>
           <button class="button">Move</button>
           <button class="button">Add to List</button>
+          <button v-if="promptUpdate" class="button is-danger update" @click="updateData">update</button>
         </div>
       </div>
 
@@ -35,13 +35,24 @@
 </template>
 
 <script>
+import editor from 'vue2-medium-editor'
 
 export default {
   name: 'FoodCard',
   props: ['foodData'],
   data () {
     return {
+      editorOptions: {
+        disableReturn: true,
+        toolbar: {
+          buttons: ['italic']
+        }
+      },
+      promptUpdate: false
     }
+  },
+  components: {
+    'medium-editor': editor
   },
   mounted: function(){
   },
@@ -55,12 +66,35 @@ export default {
       }).then(function(data){
         console.log(data);
       });
+    },
+    updateData: function(){
+      let el = this;
+      console.log(el.foodData)
+      fetch('http://127.0.0.1:8081/update', {
+        method: 'post',
+        body:JSON.stringify(el.foodData)
+      }).then(function(data){
+        return data.text();
+      }).then(function(data){
+        console.log(data);
+        el.promptUpdate = false;
+        el.$emit('reload')
+
+      });
+    },
+    editName: function(operation){
+      this.foodData.Name = operation.api.origElements.innerHTML
+      this.promptUpdate = true
     }
   }
 }
 </script>
 
 <style scoped>
+
+.update{
+  transition: display 1s;
+}
 
 .small{
   font-size: 20px;

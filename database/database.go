@@ -131,3 +131,18 @@ func (data *Database) Remove(id int) (rem bool) {
 	defer rows.Close()
 	return true
 }
+
+func (data *Database) Update(f model.Food) (ret bool) {
+	stmt, err := data.db.Prepare("update pantry set Name=?,Position=?,PadNum=?,Count=? where ID=?")
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ID)
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+	return true
+}

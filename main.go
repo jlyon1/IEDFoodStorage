@@ -53,6 +53,7 @@ func main() {
 	r.HandleFunc("/", api.IndexHandler).Methods("GET")
 	r.HandleFunc("/inventory", api.IndexHandler).Methods("GET")
 	r.HandleFunc("/remove/{id:[0-9]+}", api.RemoveFoodHandler).Methods("POST")
+	r.HandleFunc("/update", api.UpdateHandler).Methods("POST")
 
 	http.ListenAndServe("0.0.0.0:"+cfg.Port, r)
 

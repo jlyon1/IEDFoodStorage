@@ -18,7 +18,6 @@ export default {
 
 Vue.use(VueTippy)
 
-
 </script>
 
 <style lang="sass-loader">

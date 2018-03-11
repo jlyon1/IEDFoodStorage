@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jlyon1/IEDFoodStorage/database"
+	"github.com/jlyon1/IEDFoodStorage/model"
 	"net/http"
 	"strconv"
 )
@@ -34,6 +35,23 @@ func (api *API) RemoveFoodHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "Failed", 500)
 	}
+
+}
+
+func (api *API) UpdateHandler(w http.ResponseWriter, r *http.Request) {
+	food := model.Food{}
+	err := json.NewDecoder(r.Body).Decode(&food)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	if err != nil {
+		http.Error(w, "Invalid format", 500)
+		return
+	}
+	if !api.DB.Update(food) {
+		http.Error(w, "Error updating db", 500)
+		return
+	}
+	w.Write([]byte("updated"))
 
 }
 
