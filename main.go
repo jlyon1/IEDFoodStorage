@@ -35,7 +35,7 @@ func main() {
 		db.InitDatabase()
 		db.CheckLayout()
 	}
-	db.GetById(1)
+
 	r := mux.NewRouter()
 	api := api.API{
 		DB: &db,

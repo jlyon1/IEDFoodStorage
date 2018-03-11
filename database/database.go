@@ -67,12 +67,12 @@ func (data *Database) InitDatabase() {
 func (data *Database) GetById(id int) (t model.Food) {
 	stmt, err := data.db.Prepare("select * from pantry where `ID` = ?")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	defer stmt.Close()
-	rows, err := stmt.Query(1)
+	rows, err := stmt.Query(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -84,7 +84,7 @@ func (data *Database) GetById(id int) (t model.Food) {
 		}
 	}
 	if err = rows.Err(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	return t
 }
