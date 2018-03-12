@@ -2,8 +2,8 @@
   <div class="tile is-parent">
     <div class="tile is-child">
       <div class="nicebox">
-        <medium-editor :text=foodData.Name class="title is-5 pad":options="editorOptions" v-on:edit="editName">
-        </medium-editor>
+        <medium-editor :text=foodData.Name class="title is-5 pad":options="editorOptions" v-on:edit="editName"/>
+
         <span class="subtitle is-7 rgt pad">
           QTY: {{foodData.Count}}
         </span>
@@ -45,7 +45,7 @@ export default {
       editorOptions: {
         disableReturn: true,
         toolbar: {
-          buttons: ['italic']
+          buttons: []
         }
       },
       promptUpdate: false
@@ -91,7 +91,9 @@ export default {
 </script>
 
 <style scoped>
-
+.medium-editor-action {
+  display: none;
+}
 .update{
   transition: display 1s;
 }

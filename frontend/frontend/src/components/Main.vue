@@ -21,17 +21,23 @@
         Made with 🍖 by Taem Maet for IED Spring 2018
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import FoodCard from '@/components/FoodCard'
+import editor from 'vue2-medium-editor'
+import 'bulma-extensions/bulma-calendar/dist/bulma-calendar.min.js'
 
 
 export default {
 
   name: 'Main',
-  components: {FoodCard},
+  components: {
+    FoodCard,
+    'medium-editor': editor
+},
   data () {
     return {
       foodItems: {}
@@ -60,6 +66,10 @@ export default {
 </script>
 
 <style scoped>
+
+  .medium-editor-action {
+    display: none;
+  }
   .mt{
     margin-top: 50px;
   }
