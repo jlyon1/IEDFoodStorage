@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"strings"
+
 )
 
 type Config struct {
@@ -21,10 +22,16 @@ func New() (*Config, error) {
 
 	v := viper.New()
 	v.AutomaticEnv()
+	v.SetEnvPrefix("spf")
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-
 	v.SetConfigName("conf")
 	v.AddConfigPath(".")
+
+	v.SetDefault("DBHostname", cfg.DBHostname)
+	v.SetDefault("DBPort", cfg.DBPort)
+	v.SetDefault("Username", cfg.Username)
+	v.SetDefault("Password", cfg.Password)
+	v.SetDefault("Port", cfg.Port)
 
 	if err := v.ReadInConfig(); err != nil {
 		fmt.Println("No config file found; only reading from environment")
