@@ -51,10 +51,12 @@ func main() {
 	}
 
 	r.HandleFunc("/", api.IndexHandler).Methods("GET")
+	r.HandleFunc("/get", api.GetHandler).Methods("GET")
 	r.HandleFunc("/inventory", api.IndexHandler).Methods("GET")
 	r.HandleFunc("/remove/{id:[0-9]+}", api.RemoveFoodHandler).Methods("POST")
 	r.HandleFunc("/update", api.UpdateHandler).Methods("POST")
 
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 	http.ListenAndServe("0.0.0.0:"+cfg.Port, r)
 
 }

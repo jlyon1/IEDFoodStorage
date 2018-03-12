@@ -14,9 +14,10 @@ type API struct {
 	DB *database.Database
 }
 
-func (api *API) IndexHandler(w http.ResponseWriter, r *http.Request) {
+func (api *API) GetHandler(w http.ResponseWriter, r *http.Request) {
 	f := api.DB.GetAll()
 	WriteJSON(w, f)
+
 }
 
 func (api *API) RemoveFoodHandler(w http.ResponseWriter, r *http.Request) {
@@ -53,6 +54,10 @@ func (api *API) UpdateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte("updated"))
 
+}
+
+func (api *API) IndexHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/index.html")
 }
 
 func WriteJSON(w http.ResponseWriter, data interface{}) error {

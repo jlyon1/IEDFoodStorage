@@ -7,6 +7,7 @@ import (
 	"github.com/jlyon1/IEDFoodStorage/config"
 	"github.com/jlyon1/IEDFoodStorage/model"
 	"log"
+	"time"
 )
 
 type Database struct {
@@ -134,12 +135,20 @@ func (data *Database) Remove(id int) (rem bool) {
 
 func (data *Database) Update(f model.Food) (ret bool) {
 	stmt, err := data.db.Prepare("update pantry set Name=?,Position=?,PadNum=?,Count=? where ID=?")
+	if f.ID == -1 {
+		stmt, err = data.db.Prepare("insert into pantry (Name,Position,PadNum,Count,Created,ExpirationDate) values (?,?,?,?,?,?)")
+		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ID, time.Now())
+
+	} else {
+		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ID)
+
+	}
 	if err != nil {
 		log.Print(err)
 		return false
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ID)
+
 	if err != nil {
 		log.Print(err)
 		return false

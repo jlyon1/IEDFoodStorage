@@ -24,9 +24,7 @@
         </div>
         <div class="boxfooter">
           <button @click="remove" class="button" title="Caution: Permanent" v-tippy>Remove</button>
-          <button class="button">Move</button>
-          <button class="button">Add to List</button>
-          <button v-if="promptUpdate" class="button is-danger update" @click="updateData">update</button>
+          <button v-if="promptUpdate" class="button is-danger update" @click="updateData">Save</button>
         </div>
       </div>
 
@@ -82,8 +80,11 @@ export default {
       })
     },
     editName: function (operation) {
-      this.foodData.Name = operation.api.origElements.innerHTML
-      this.promptUpdate = true
+      if(this.foodData.Name != operation.api.origElements.innerHTML){
+        this.foodData.Name = operation.api.origElements.innerHTML
+        this.promptUpdate = true
+
+      }
     }
   }
 }

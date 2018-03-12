@@ -9,7 +9,7 @@
           Your Pantry:
         </div>
         <div style="margin-bottom: 15px;">
-          <button class="button">Add</button>
+          <button class="button" @click="add">Add</button>
         </div>
         <div class="tile is-ancestor" v-for="i in Math.ceil(foodItems.Foods.length/3)">
           <FoodCard v-for="(item,j) in foodItems.Foods.slice((i - 1) * 3, i * 3)" v-bind:foodData="item" v-on:reload="reload"></FoodCard>
@@ -39,14 +39,26 @@ export default {
   },
   data () {
     return {
-      foodItems: {}
+      foodItems: []
     }
   },
   methods: {
-
+    add: function(){
+      var tmp = {
+        "ID": -1,
+        "Name": "Unknown",
+        "ExpirationDate": "2018-03-10T00:00:00Z",
+        "Position": -1,
+        "PadNum": -1,
+        "Count": 0,
+        "Created": 5
+      }
+      this.foodItems.Foods.unshift(tmp)
+      console.log(this.foodItems)
+    },
     reload: function () {
       let el = this
-      fetch('http://127.0.0.1:8081/').then(function (data) {
+      fetch('http://127.0.0.1:8081/get').then(function (data) {
         return data.json()
       }).then(function (resp) {
         el.foodItems = resp
@@ -55,7 +67,7 @@ export default {
   },
   mounted: function () {
     let el = this
-    fetch('http://127.0.0.1:8081/').then(function (data) {
+    fetch('http://127.0.0.1:8081/get').then(function (data) {
       return data.json()
     }).then(function (resp) {
       el.foodItems = resp
