@@ -15,13 +15,11 @@ export default {
   }
 }
 
-
 Vue.use(VueTippy)
 
 </script>
 
 <style lang="sass-loader">
-
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Raleway');
 $section-padding: 1rem;

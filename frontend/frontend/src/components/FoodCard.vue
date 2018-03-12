@@ -54,35 +54,34 @@ export default {
   components: {
     'medium-editor': editor
   },
-  mounted: function(){
+  mounted: function () {
   },
   methods: {
-    remove: function(){
+    remove: function () {
       this.$emit('reload')
       fetch('http://127.0.0.1:8081/remove/' + this.foodData.ID, {
         method: 'post'
-      }).then(function(data){
-        return data.text();
-      }).then(function(data){
-        console.log(data);
-      });
+      }).then(function (data) {
+        return data.text()
+      }).then(function (data) {
+        console.log(data)
+      })
     },
-    updateData: function(){
-      let el = this;
+    updateData: function () {
+      let el = this
       console.log(el.foodData)
       fetch('http://127.0.0.1:8081/update', {
         method: 'post',
-        body:JSON.stringify(el.foodData)
-      }).then(function(data){
-        return data.text();
-      }).then(function(data){
-        console.log(data);
-        el.promptUpdate = false;
+        body: JSON.stringify(el.foodData)
+      }).then(function (data) {
+        return data.text()
+      }).then(function (data) {
+        console.log(data)
+        el.promptUpdate = false
         el.$emit('reload')
-
-      });
+      })
     },
-    editName: function(operation){
+    editName: function (operation) {
       this.foodData.Name = operation.api.origElements.innerHTML
       this.promptUpdate = true
     }

@@ -30,14 +30,13 @@ import FoodCard from '@/components/FoodCard'
 import editor from 'vue2-medium-editor'
 import 'bulma-extensions/bulma-calendar/dist/bulma-calendar.min.js'
 
-
 export default {
 
   name: 'Main',
   components: {
     FoodCard,
     'medium-editor': editor
-},
+  },
   data () {
     return {
       foodItems: {}
@@ -45,22 +44,22 @@ export default {
   },
   methods: {
 
-    reload: function(){
-      let el = this;
-      fetch("http://127.0.0.1:8081/").then(function(data){
-        return data.json();
-      }).then(function (resp){
+    reload: function () {
+      let el = this
+      fetch('http://127.0.0.1:8081/').then(function (data) {
+        return data.json()
+      }).then(function (resp) {
         el.foodItems = resp
-      });
+      })
     }
   },
-  mounted: function(){
-    let el = this;
-    fetch("http://127.0.0.1:8081/").then(function(data){
-      return data.json();
-    }).then(function (resp){
+  mounted: function () {
+    let el = this
+    fetch('http://127.0.0.1:8081/').then(function (data) {
+      return data.json()
+    }).then(function (resp) {
       el.foodItems = resp
-    });
+    })
   }
 }
 </script>
