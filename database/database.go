@@ -63,6 +63,7 @@ func (data *Database) InitDatabase() {
 		log.Fatal(err)
 	}
 	log.Printf("ID = %d, affected = %d\n", lastId, rowCnt)
+	res, err = data.db.Exec("insert into pantry (ID,Name,Position,PadNum,Count,Created,ExpirationDate) values (1,'Apple',2,1,2,1,01/10/2018);")
 }
 
 func (data *Database) GetById(id int) (t model.Food) {
@@ -134,13 +135,13 @@ func (data *Database) Remove(id int) (rem bool) {
 }
 
 func (data *Database) Update(f model.Food) (ret bool) {
-	stmt, err := data.db.Prepare("update pantry set Name=?,Position=?,PadNum=?,Count=? where ID=?")
+	stmt, err := data.db.Prepare("update pantry set Name=?,Position=?,PadNum=?,Count=?,ExpirationDate=? where ID=? ")
 	if f.ID == -1 {
 		stmt, err = data.db.Prepare("insert into pantry (Name,Position,PadNum,Count,Created,ExpirationDate) values (?,?,?,?,?,?)")
 		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ID, time.Now())
 
 	} else {
-		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ID)
+		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ExpirationDate, f.ID)
 
 	}
 	if err != nil {

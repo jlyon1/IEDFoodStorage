@@ -43,7 +43,7 @@ func (api *API) UpdateHandler(w http.ResponseWriter, r *http.Request) {
 	food := model.Food{}
 	err := json.NewDecoder(r.Body).Decode(&food)
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
+	fmt.Printf("Food %v", food)
 	if err != nil {
 		http.Error(w, "Invalid format", 500)
 		return

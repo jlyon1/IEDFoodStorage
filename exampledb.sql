@@ -1,6 +1,6 @@
 -- MySQL dump 10.16  Distrib 10.1.28-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: 172.17.0.2    Database: food
+-- Host: 172.17.0.3    Database: food
 -- ------------------------------------------------------
 -- Server version	10.2.13-MariaDB-10.2.13+maria~jessie
 
@@ -29,8 +29,9 @@ CREATE TABLE `pantry` (
   `Position` int(11) DEFAULT NULL,
   `PadNum` int(11) DEFAULT NULL,
   `Count` int(11) DEFAULT NULL,
+  `Created` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +40,7 @@ CREATE TABLE `pantry` (
 
 LOCK TABLES `pantry` WRITE;
 /*!40000 ALTER TABLE `pantry` DISABLE KEYS */;
+INSERT INTO `pantry` VALUES (1,'Apple','0000-00-00',2,1,2,1);
 /*!40000 ALTER TABLE `pantry` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-11 14:47:12
+-- Dump completed on 2018-04-01 22:38:17

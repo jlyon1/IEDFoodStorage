@@ -11,7 +11,7 @@
           Location: Pad {{foodData.PadNum}}
         </p>
         <p class="description">
-          Expires: {{foodData.ExpirationDate.substr(0,10)}}
+          Expires: <medium-editor :text=foodData.ExpirationDate.substr(0,10) :options="editorOptions" v-on:edit="editExpir"/>
         </p>
         <p class="description">
           Weight Sensor: none
@@ -42,6 +42,7 @@ export default {
     return {
       editorOptions: {
         disableReturn: true,
+        extraTime: "",
         toolbar: {
           buttons: []
         }
@@ -52,9 +53,21 @@ export default {
   components: {
     'medium-editor': editor
   },
+
   mounted: function () {
+
   },
   methods: {
+    clean: function(){
+      console.log("cleaning")
+      if(this.extraTime == "" || this.extraTime == undefined){
+        this.extraTime = this.foodData.ExpirationDate.substr(10)
+
+      }
+      console.log(this.extraTime)
+      this.foodData.ExpirationDate = this.foodData.ExpirationDate.substr(0,10)
+
+    },
     remove: function () {
       this.$emit('reload')
       fetch('http://127.0.0.1:8081/remove/' + this.foodData.ID, {
@@ -67,6 +80,7 @@ export default {
     },
     updateData: function () {
       let el = this
+      this.foodData.ExpirationDate += this.extraTime
       console.log(el.foodData)
       fetch('http://127.0.0.1:8081/update', {
         method: 'post',
@@ -83,7 +97,14 @@ export default {
       if(this.foodData.Name != operation.api.origElements.innerHTML){
         this.foodData.Name = operation.api.origElements.innerHTML
         this.promptUpdate = true
-
+      }
+    },
+    editExpir: function(operation){
+      this.clean()
+      console.log(operation.api.origElements.innerHTML)
+      if(this.foodData.ExpirationDate.substr(0,10) != operation.api.origElements.innerHTML){
+        this.foodData.ExpirationDate = operation.api.origElements.innerHTML
+        this.promptUpdate = true
       }
     }
   }
