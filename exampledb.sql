@@ -29,7 +29,7 @@ CREATE TABLE `pantry` (
   `Position` int(11) DEFAULT NULL,
   `PadNum` int(11) DEFAULT NULL,
   `Count` int(11) DEFAULT NULL,
-  `Created` int(11) DEFAULT NULL,
+  `Created` bigint(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
