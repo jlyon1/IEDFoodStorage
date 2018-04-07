@@ -51,7 +51,7 @@ export default {
         "Position": -1,
         "PadNum": -1,
         "Count": 0,
-        "Created": 5
+        "Created":Date.now(), 
       }
       this.foodItems.Foods.unshift(tmp)
       console.log(this.foodItems)

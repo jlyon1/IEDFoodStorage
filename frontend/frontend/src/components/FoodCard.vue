@@ -14,10 +14,10 @@
           Expires: <medium-editor :text=foodData.ExpirationDate.substr(0,10) :options="editorOptions" v-on:edit="editExpir"/>
         </p>
         <p class="description">
-          Weight Sensor: none
+          Weight Sensor: {{foodData.Position}}
         </p>
         <p class="description">
-          Time on Shelf:
+          Time on Shelf: {{(((Date.now() - foodData.Created)/1000)/60)/60}} Hours
         </p>
         <div class="boxfooter">
           Quantity: <button class="button" @click="foodData.Count++;promptUpdate=true;">+</button><button @click="foodData.Count--;promptUpdate=true;" class="button">-</button>
@@ -69,7 +69,6 @@ export default {
 
     },
     remove: function () {
-      this.$emit('reload')
       fetch('http://127.0.0.1:8081/remove/' + this.foodData.ID, {
         method: 'post'
       }).then(function (data) {
@@ -77,8 +76,13 @@ export default {
       }).then(function (data) {
         console.log(data)
       })
+      this.$emit('reload')
     },
     updateData: function () {
+      if(this.extraTime == "" || this.extraTime == undefined){
+        this.extraTime = this.foodData.ExpirationDate.substr(10)
+
+      }
       let el = this
       this.foodData.ExpirationDate += this.extraTime
       console.log(el.foodData)

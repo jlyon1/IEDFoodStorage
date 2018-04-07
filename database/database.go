@@ -50,7 +50,7 @@ func (data *Database) CheckLayout() bool {
 
 func (data *Database) InitDatabase() {
 
-	res, err := data.db.Exec("CREATE TABLE pantry(ID int NOT NULL AUTO_INCREMENT KEY, Name varchar(255) NOT NULL, ExpirationDate date, Position int, PadNum int, Count int, Created int);")
+	res, err := data.db.Exec("CREATE TABLE pantry(ID int NOT NULL AUTO_INCREMENT KEY, Name varchar(255) NOT NULL, ExpirationDate date, Position int, PadNum int, Count int, Created bigint);")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -138,7 +138,7 @@ func (data *Database) Update(f model.Food) (ret bool) {
 	stmt, err := data.db.Prepare("update pantry set Name=?,Position=?,PadNum=?,Count=?,ExpirationDate=? where ID=? ")
 	if f.ID == -1 {
 		stmt, err = data.db.Prepare("insert into pantry (Name,Position,PadNum,Count,Created,ExpirationDate) values (?,?,?,?,?,?)")
-		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ID, time.Now())
+		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.Created, time.Now())
 
 	} else {
 		_, err = stmt.Exec(f.Name, f.Position, f.PadNum, f.Count, f.ExpirationDate, f.ID)
