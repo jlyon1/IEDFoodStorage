@@ -51,14 +51,14 @@ export default {
         "Position": -1,
         "PadNum": -1,
         "Count": 0,
-        "Created":Date.now(), 
+        "Created":Date.now(),
       }
       this.foodItems.Foods.unshift(tmp)
       console.log(this.foodItems)
     },
     reload: function () {
       let el = this
-      fetch('http://127.0.0.1:8081/get').then(function (data) {
+      fetch('/get').then(function (data) {
         return data.json()
       }).then(function (resp) {
         el.foodItems = resp
@@ -67,7 +67,7 @@ export default {
   },
   mounted: function () {
     let el = this
-    fetch('http://127.0.0.1:8081/get').then(function (data) {
+    fetch('/get').then(function (data) {
       return data.json()
     }).then(function (resp) {
       el.foodItems = resp

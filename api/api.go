@@ -57,7 +57,7 @@ func (api *API) UpdateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *API) IndexHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./static/index.html")
+	http.ServeFile(w, r, "./index.html")
 }
 
 func WriteJSON(w http.ResponseWriter, data interface{}) error {
