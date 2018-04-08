@@ -69,7 +69,7 @@ export default {
 
     },
     remove: function () {
-      fetch('/remove/' + this.foodData.ID, {
+      fetch('http://127.0.0.1:8081/remove/' + this.foodData.ID, {
         method: 'post'
       }).then(function (data) {
         return data.text()
@@ -86,7 +86,7 @@ export default {
       let el = this
       this.foodData.ExpirationDate += this.extraTime
       console.log(el.foodData)
-      fetch('/update', {
+      fetch('http://127.0.0.1:8081/update', {
         method: 'post',
         body: JSON.stringify(el.foodData)
       }).then(function (data) {

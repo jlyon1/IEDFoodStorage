@@ -58,7 +58,7 @@ export default {
     },
     reload: function () {
       let el = this
-      fetch('/get').then(function (data) {
+      fetch('http://127.0.0.1:8081/get').then(function (data) {
         return data.json()
       }).then(function (resp) {
         el.foodItems = resp
@@ -67,9 +67,11 @@ export default {
   },
   mounted: function () {
     let el = this
-    fetch('/get').then(function (data) {
+    fetch('http://127.0.0.1:8081/get').then(function (data) {
+      // console.log(data.json())
       return data.json()
     }).then(function (resp) {
+      console.log(resp)
       el.foodItems = resp
     })
   }
