@@ -52,7 +52,7 @@ func (api *API) RemoveFoodHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 
 		if err != nil {
-			http.Error(w, "Invalid format", 500)
+			http.Error(w, err.Error(), 500)
 			return
 		}
 
@@ -73,7 +73,7 @@ func (api *API) UpdateHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		fmt.Printf("Food %v", food)
 		if err != nil {
-			http.Error(w, "Invalid format", 500)
+			http.Error(w, err.Error(), 500)
 			return
 		}
 		if !api.DB.Update(food) {
