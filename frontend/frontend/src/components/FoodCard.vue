@@ -94,10 +94,7 @@ export default {
       this.$emit('reload')
     },
     updateData: function () {
-      if(this.extraTime == "" || this.extraTime == undefined){
-        this.extraTime = this.foodData.ExpirationDate.substr(10)
-
-      }
+      this.clean()
       let el = this
       this.foodData.ExpirationDate += this.extraTime
       console.log(el.foodData)
