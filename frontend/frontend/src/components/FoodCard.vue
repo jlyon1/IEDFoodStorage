@@ -1,7 +1,7 @@
 <template>
   <div class="tile is-parent">
     <div class="tile is-child">
-      <div class="nicebox">
+      <div class="nicebox" v-bind:style="boxColor">
         <medium-editor :text=foodData.Name class="title is-5 pad":options="editorOptions" v-on:edit="editName"/>
 
         <span class="subtitle is-7 rgt pad">
@@ -17,7 +17,7 @@
           Weight Sensor: {{foodData.Position}}
         </p>
         <p class="description">
-          Time on Shelf: {{(((Date.now() - foodData.Created)/1000)/60)/60}} Hours
+          Time on Shelf: {{Number((((Date.now() - foodData.Created)/1000)/60)/60).toFixed(1)}} Hours
         </p>
         <div class="boxfooter">
           Quantity: <button class="button" @click="foodData.Count++;promptUpdate=true;">+</button><button @click="foodData.Count--;promptUpdate=true;" class="button">-</button>
@@ -40,6 +40,9 @@ export default {
   props: ['foodData'],
   data () {
     return {
+      boxColor: {
+        backgroundColor: 'rgba(14, 105, 161, 0.03)',
+      },
       editorOptions: {
         disableReturn: true,
         extraTime: "",
@@ -55,11 +58,23 @@ export default {
   },
 
   mounted: function () {
+    this.$nextTick(function () {
+      var date = new Date()
+
+      if(Date.parse(this.foodData.ExpirationDate) < date.getTime()){
+        this.boxColor.backgroundColor="#e74c3c22";
+      }
+      if(Date.parse(this.foodData.ExpirationDate) < (date.getTime() + 86400000) && Date.parse(this.foodData.ExpirationDate) > (date.getTime())){
+        this.boxColor.backgroundColor="#f1c40f22";
+      }
+    })
+  },
+  updated: function () {
 
   },
   methods: {
     clean: function(){
-      console.log("cleaning")
+    
       if(this.extraTime == "" || this.extraTime == undefined){
         this.extraTime = this.foodData.ExpirationDate.substr(10)
 
@@ -69,7 +84,7 @@ export default {
 
     },
     remove: function () {
-      fetch('http://127.0.0.1:8081/remove/' + this.foodData.ID, {
+      fetch('/remove/' + this.foodData.ID, {
         method: 'post'
       }).then(function (data) {
         return data.text()
@@ -86,7 +101,7 @@ export default {
       let el = this
       this.foodData.ExpirationDate += this.extraTime
       console.log(el.foodData)
-      fetch('http://127.0.0.1:8081/update', {
+      fetch('/update', {
         method: 'post',
         body: JSON.stringify(el.foodData)
       }).then(function (data) {
@@ -177,7 +192,7 @@ export default {
   font-family: "Raleway" sans-serif;
   border-radius: 4px;
   border:1px solid #E0E0EA;
-  background-color: rgba(14, 105, 161, 0.03);
+
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: background-color .15s;
 }
@@ -185,7 +200,7 @@ export default {
   font-family: "Raleway" sans-serif;
   border-radius: 4px;
   border:1px solid #E0E0EA;
-  background-color: rgba(14, 105, 161, 0.05);
+
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 </style>

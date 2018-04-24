@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/gorilla/mux"
 	"github.com/jlyon1/IEDFoodStorage/api"
 	"github.com/jlyon1/IEDFoodStorage/config"
 	"github.com/jlyon1/IEDFoodStorage/database"
-	"net/http"
-	"time"
 )
 
 func main() {
@@ -46,12 +47,18 @@ func main() {
 	}
 
 	r := mux.NewRouter()
+	apiCFG := api.CFG{
+		Enabled: true,
+	}
 	api := api.API{
-		DB: &db,
+		DB:  &db,
+		Cfg: apiCFG,
 	}
 
 	r.HandleFunc("/", api.IndexHandler).Methods("GET")
 	r.HandleFunc("/get", api.GetHandler).Methods("GET")
+	r.HandleFunc("/enabled", api.EnabledHandler).Methods("GET")
+	r.HandleFunc("/enabled", api.UpdateStateHandler).Methods("Post")
 	r.HandleFunc("/inventory", api.IndexHandler).Methods("GET")
 	r.HandleFunc("/remove/{id:[0-9]+}", api.RemoveFoodHandler).Methods("POST")
 	r.HandleFunc("/update", api.UpdateHandler).Methods("POST")

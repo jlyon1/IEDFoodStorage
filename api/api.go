@@ -3,15 +3,21 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"strconv"
+
 	"github.com/gorilla/mux"
 	"github.com/jlyon1/IEDFoodStorage/database"
 	"github.com/jlyon1/IEDFoodStorage/model"
-	"net/http"
-	"strconv"
 )
 
 type API struct {
-	DB *database.Database
+	Cfg CFG
+	DB  *database.Database
+}
+
+type CFG struct {
+	Enabled bool
 }
 
 func (api *API) GetHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,39 +26,62 @@ func (api *API) GetHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (api *API) RemoveFoodHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+func (api *API) EnabledHandler(w http.ResponseWriter, r *http.Request) {
+	WriteJSON(w, api.Cfg)
+}
 
+func (api *API) UpdateStateHandler(w http.ResponseWriter, r *http.Request) {
+	ret := CFG{}
+	err := json.NewDecoder(r.Body).Decode(&ret)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	fmt.Printf("ret %v", ret)
 	if err != nil {
-		http.Error(w, "Invalid format", 500)
+
+		http.Error(w, err.Error(), 500)
 		return
 	}
+	api.Cfg = ret
+	w.Write([]byte("updated"))
 
-	if api.DB.Remove(id) {
-		w.Write([]byte("removed"))
-		fmt.Printf("Removed %d\n", id)
-	} else {
-		http.Error(w, "Failed", 500)
+}
+
+func (api *API) RemoveFoodHandler(w http.ResponseWriter, r *http.Request) {
+	if api.Cfg.Enabled {
+		vars := mux.Vars(r)
+		id, err := strconv.Atoi(vars["id"])
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		if err != nil {
+			http.Error(w, "Invalid format", 500)
+			return
+		}
+
+		if api.DB.Remove(id) {
+			w.Write([]byte("removed"))
+			fmt.Printf("Removed %d\n", id)
+		} else {
+			http.Error(w, "Failed", 500)
+		}
 	}
 
 }
 
 func (api *API) UpdateHandler(w http.ResponseWriter, r *http.Request) {
-	food := model.Food{}
-	err := json.NewDecoder(r.Body).Decode(&food)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	fmt.Printf("Food %v", food)
-	if err != nil {
-		http.Error(w, "Invalid format", 500)
-		return
+	if api.Cfg.Enabled {
+		food := model.Food{}
+		err := json.NewDecoder(r.Body).Decode(&food)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		fmt.Printf("Food %v", food)
+		if err != nil {
+			http.Error(w, "Invalid format", 500)
+			return
+		}
+		if !api.DB.Update(food) {
+			http.Error(w, "Error updating db", 500)
+			return
+		}
+		w.Write([]byte("updated"))
 	}
-	if !api.DB.Update(food) {
-		http.Error(w, "Error updating db", 500)
-		return
-	}
-	w.Write([]byte("updated"))
 
 }
 
