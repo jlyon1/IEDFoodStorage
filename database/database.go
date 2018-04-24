@@ -3,11 +3,12 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"time"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jlyon1/IEDFoodStorage/config"
 	"github.com/jlyon1/IEDFoodStorage/model"
-	"log"
-	"time"
 )
 
 type Database struct {
@@ -114,6 +115,9 @@ func (data *Database) GetAll() (ret model.Foods) {
 	}
 	if err = rows.Err(); err != nil {
 		log.Print(err)
+	}
+	if ret.Foods == nil {
+		ret.Foods = []model.Food{}
 	}
 	return ret
 }
