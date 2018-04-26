@@ -85,7 +85,7 @@ export default {
     },
     reload: function () {
       let el = this
-      el.foodItems = {}
+      //el.foodItems = {}
       fetch('/get').then(function (data) {
         return data.json()
       }).then(function (resp) {
