@@ -95,6 +95,7 @@ export default {
   },
   mounted: function () {
     let el = this
+    setInterval(el.reload,1000)
     fetch('/get').then(function (data) {
       // console.log(data.json())
       return data.json()
