@@ -89,13 +89,16 @@ export default {
       fetch('/get').then(function (data) {
         return data.json()
       }).then(function (resp) {
-        el.foodItems = resp
+        if (el.foodItems[0].ID != -1){
+          el.foodItems = resp
+        }
+        
       })
     }
   },
   mounted: function () {
     let el = this
-    setInterval(el.reload,1000)
+    setInterval(el.reload,10000)
     fetch('/get').then(function (data) {
       // console.log(data.json())
       return data.json()
