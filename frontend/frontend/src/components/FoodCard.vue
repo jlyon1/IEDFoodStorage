@@ -3,7 +3,7 @@
     <div class="tile is-child">
       <div class="nicebox" v-bind:style="boxColor">
         <medium-editor :text=foodData.Name class="title is-5 pad":options="editorOptions" v-on:edit="editName"/>
-
+        <div style="font-size: 1px;">{{bg}}</div>
         <span class="subtitle is-7 rgt pad">
           QTY: {{foodData.Count}}
         </span>
@@ -69,8 +69,21 @@ export default {
       }
     })
   },
-  updated: function () {
+  computed:{
+    bg: function(){
+        var date = new Date()
 
+        if(Date.parse(this.foodData.ExpirationDate) < date.getTime()){
+          this.boxColor.backgroundColor="#e74c3c22";
+          return "#e74c3c22";
+        }
+        if(Date.parse(this.foodData.ExpirationDate) < (date.getTime() + 86400000) && Date.parse(this.foodData.ExpirationDate) > (date.getTime())){
+          this.boxColor.backgroundColor="#f1c40f22";
+          return "#f1c40f22";
+        }
+        this.boxColor.backgroundColor="rgba(14, 105, 161, 0.03)";
+        return "rgba(14, 105, 161, 0.03)"; 
+    }
   },
   methods: {
     clean: function(){
