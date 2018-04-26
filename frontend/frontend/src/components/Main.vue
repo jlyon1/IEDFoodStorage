@@ -89,9 +89,9 @@ export default {
       fetch('/get').then(function (data) {
         return data.json()
       }).then(function (resp) {
-        if (el.foodItems[0].ID != -1){
-          el.foodItems = resp
-        }
+        //if (el.foodItems[0].ID != -1){
+        el.foodItems = resp
+        //}
         
       })
     }
